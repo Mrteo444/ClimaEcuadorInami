@@ -1,1 +1,1 @@
-String API_KEY = "YOUR_API_KEY_HERE";
+String API_KEY = "https://inamhi.gob.ec/api_rest/data_forecast/test-forecast/";
