@@ -7,6 +7,10 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+
+import 'package:intl/intl.dart';
+
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -71,20 +75,21 @@ class Home extends StatelessWidget {
             ////
             BlocBuilder<WeatherBlocBloc, WeatherBlocState>(
               builder: (context, state) {
+                if(state is WeatherBlocSuccess){
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
                       child: Text(
-                        'hola',
+                        '${state.weather.areaName}',
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w300,
                         ),
                       ),
                     ),
-                    Text(
+                    const Text(
                       'Buenos Dias',
                       style: TextStyle(
                         color: Colors.white,
@@ -93,19 +98,19 @@ class Home extends StatelessWidget {
                       ),
                     ),
                     Image.asset('assets/clear.png'),
-                    const Center(
+                     Center(
                       child: Text(
-                        '15 °c ',
-                        style: TextStyle(
+                        '${state.weather.temperature}°c ',
+                        style: const TextStyle(
                             color: Colors.white,
                             fontSize: 55,
                             fontWeight: FontWeight.w600),
                       ),
                     ),
-                    const Center(
+                     Center(
                       child: Text(
-                        'Soleado',
-                        style: TextStyle(
+                        state.weather.weatherMain!.toUpperCase(),
+                        style: const TextStyle(
                             color: Colors.white,
                             fontSize: 25,
                             fontWeight: FontWeight.w500),
@@ -114,7 +119,8 @@ class Home extends StatelessWidget {
                     const SizedBox(height: 5),
                     const Center(
                       child: Text(
-                        'lunes 25 - 10.10 am',
+                        //DateFormat('EEEE ').add_jm().format(state.weather.date!),
+                       'lunes 25 - 10.10 am',
                         style: TextStyle(
                             color: Colors.blue,
                             fontSize: 16,
@@ -275,6 +281,9 @@ class Home extends StatelessWidget {
                     ),
                   ],
                 );
+                } else {
+                  return Container();
+                }
               },
             ),
             Positioned(
