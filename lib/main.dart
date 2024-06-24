@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
@@ -37,8 +36,7 @@ class MyApp extends StatelessWidget {
             );
           } else if (snapshot.hasData) {
             // Imprimir la geolocalización en la consola
-            print(
-                'Latitud: ${snapshot.data!.latitude}, Longitud: ${snapshot.data!.longitude}');
+            print('Latitud: ${snapshot.data!.latitude}, Longitud: ${snapshot.data!.longitude}');
 
             // Obtener datos de la API y imprimir en consola
             fetchWeatherData(snapshot.data!);
@@ -65,13 +63,10 @@ class MyApp extends StatelessWidget {
   Future<void> fetchWeatherData(Position position) async {
     final url = Uri.parse('https://inamhi.gob.ec/api_rest/data_forecast/test-forecast/');
 
-    List <dynamic> minimoList = [];
-    num tempo=10000;
+    Map<dynamic, dynamic>? minimoList;
+    num tempo = 10000;
 
-    
-    
     try {
-    
       print(' XXXANDROID Latitud: ${position.latitude}, Longitud: ${position.longitude}');
 
       final response = await http.get(url);
@@ -80,30 +75,26 @@ class MyApp extends StatelessWidget {
         final List<dynamic> dataList = json.decode(response.body);
 
         for (var item in dataList) {
-          
           if (item is Map<dynamic, dynamic>) {
-            
             // Ejemplo de acceso a una propiedad específica
             if (item.containsKey("province")) {
               print('Province: ${item["province"]}');
               print('id: ${item["id"]}');
               print('latitude: ${item["latitude"]}');
-              print('longitude": ${item["longitude"]}');
+              print('longitude: ${item["longitude"]}');
 
-             num  disstanciax=pow(position.longitude-item["longitude"],2);
-            num  disstanciay=pow(position.longitude-item["longitude"],2);
+              num disstanciax = pow(position.longitude - item["longitude"], 2);
+              num disstanciay = pow(position.latitude - item["latitude"], 2);
 
-            num totaldis=pow(disstanciax+disstanciay,0.5);
-            
-            if(totaldis < tempo ){
-             // minimoList=item ;
-              //print('Provincexxx: ${minimoList["province"]}');
+              num totaldis = pow(disstanciax + disstanciay, 0.5);
 
-            }
-            tempo=totaldis;
+              if (totaldis < tempo) {
+                minimoList = item;
+                print('Provincexxx: ${minimoList["province"]}');
+                tempo = totaldis;
+              }
 
-
-             print("ladistnaica${totaldis}");
+              print("ladistancia: $totaldis");
             } else {
               print('Elemento sin propiedad "province"');
             }
@@ -112,6 +103,18 @@ class MyApp extends StatelessWidget {
             print('Elemento no es un Map válido');
           }
         }
+
+        // Imprimir la provincia más cercana con el mensaje especificado
+        if (minimoList != null) {
+          print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+          print('EL USUARIO ESTA EN ESTA PARTE!!!!!! Provincia: ${minimoList["province"]}');
+          print('EL USUARIO ESTA EN ESTA PARTE!!!!!! Provincia: ${minimoList["locality"]}');
+          print('EL USUARIO ESTA EN ESTA PARTE!!!!!! Provincia: ${minimoList["id"]}');
+          print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+
+
+        }
+
       } else {
         print('Error al obtener los datos de la API: ${response.statusCode}');
       }
