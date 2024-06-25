@@ -1,16 +1,10 @@
 import 'dart:ui';
-
 import 'package:ecuador_clima/bloc/weather_bloc_bloc.dart';
 import 'package:ecuador_clima/ui/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-
-import 'package:intl/intl.dart';
-
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -20,13 +14,6 @@ class Home extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       extendBodyBehindAppBar: true,
-      // appBar: AppBar(
-      //   backgroundColor: const Color.fromARGB(255, 5, 5, 5),
-      //   elevation: 0,
-      //   systemOverlayStyle: const SystemUiOverlayStyle(
-      //     statusBarBrightness: Brightness.dark,
-      //   ),
-      // ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(40, 1.2 * kToolbarHeight, 40, 20),
         child: Stack(
@@ -72,217 +59,271 @@ class Home extends StatelessWidget {
                 ),
               ),
             ),
-            ////
-            BlocBuilder<WeatherBlocBloc, WeatherBlocState>(
+            BlocBuilder<WeatherBlocBloc, WeatherState>(
               builder: (context, state) {
-                if(state is WeatherBlocSuccess){
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Text(
-                        '${state.weather.areaName}',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w300,
+                if (state is WeatherLoading) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (state is WeatherLoaded) {
+                  final weatherMain = state.weatherData["weatherMain"];
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Text(
+                          'Provincia: ${state.weatherData["forecast_first_day.date"]}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w300,
+                          ),
                         ),
                       ),
-                    ),
-                    const Text(
-                      'Buenos Dias',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Image.asset('assets/clear.png'),
-                     Center(
-                      child: Text(
-                        '${state.weather.temperature}°c ',
-                        style: const TextStyle(
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Text(
+                          'Localidad: ${state.weatherData["locality"]}',
+                          style: TextStyle(
                             color: Colors.white,
-                            fontSize: 55,
-                            fontWeight: FontWeight.w600),
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
                       ),
-                    ),
-                     Center(
-                      child: Text(
-                        state.weather.weatherMain!.toUpperCase(),
-                        style: const TextStyle(
+                      // Padding(
+                      //   padding: const EdgeInsets.only(bottom: 8.0),
+                      //   child: Text(
+                      //     'ID: ${state.weatherData["id"]}',
+                      //     style: TextStyle(
+                      //       color: Colors.white,
+                      //       fontWeight: FontWeight.w300,
+                      //     ),
+                      //   ),
+                      // ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Text(
+                          '📍 ${state.weatherData["province"]}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Text(
+                          'Localidad ${state.weatherData["locality"]}',
+                          style: TextStyle(
                             color: Colors.white,
                             fontSize: 25,
-                            fontWeight: FontWeight.w500),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Image.asset('assets/clear.png'),
+                      Center(
+                        child: Text(
+                          '44°c ',
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 225, 81, 81),
+                              fontSize: 55,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      Center(
+                        child: Text(
+                          weatherMain != null
+                              ? weatherMain.toUpperCase()
+                              : 'N/D',
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 25,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      const Center(
+                        child: Text(
+                          'lunes 25 - 10.10 am',
+                          style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w300),
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      Column(
+                        children: [
+                          Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Column(
+                                  children: [
+                                    Image.asset(
+                                      'assets/sleet.png',
+                                      scale: 8,
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: const [
+                                        Text(
+                                          'frio',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 28,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        SizedBox(height: 6),
+                                        Text(
+                                          '10.10 am',
+                                          style: TextStyle(
+                                            color: Colors.blue,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                Column(
+                                  children: [
+                                    Image.asset(
+                                      'assets/lightrain.png',
+                                      scale: 8,
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: const [
+                                        Text(
+                                          'Lluvia',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 28,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        SizedBox(height: 6),
+                                        Text(
+                                          '10.10 am',
+                                          style: TextStyle(
+                                            color: Colors.blue,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5.0),
+                            child: Divider(
+                              color: Colors.white,
+                            ),
+                          ),
+                          Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Column(
+                                  children: [
+                                    const SizedBox(height: 5),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: const [
+                                        Text(
+                                          '🔥 ',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 28,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        SizedBox(height: 6),
+                                        Text(
+                                          '10.10 am',
+                                          style: TextStyle(
+                                            color: Colors.blue,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  width: 45,
+                                ),
+                                Column(
+                                  children: [
+                                    const SizedBox(height: 5),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: const [
+                                        Text(
+                                          '🥶',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 28,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        SizedBox(height: 6),
+                                        Text(
+                                          '10.10 am',
+                                          style: TextStyle(
+                                            color: Colors.blue,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                } else if (state is WeatherError) {
+                  return Center(
+                    child: Text(
+                      state.message,
+                      style: TextStyle(
+                        color: Colors.red,
                       ),
                     ),
-                    const SizedBox(height: 5),
-                    const Center(
-                      child: Text(
-                        //DateFormat('EEEE ').add_jm().format(state.weather.date!),
-                       'lunes 25 - 10.10 am',
-                        style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w300),
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    Column(
-                      children: [
-                        Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Column(
-                                children: [
-                                  Image.asset(
-                                    'assets/sleet.png',
-                                    scale: 8,
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: const [
-                                      Text(
-                                        'frio',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 28,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      SizedBox(height: 6),
-                                      Text(
-                                        '10.10 am',
-                                        style: TextStyle(
-                                          color: Colors.blue,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ), // Espacio entre los dos elementos
-                              Column(
-                                children: [
-                                  Image.asset(
-                                    'assets/lightrain.png',
-                                    scale: 8,
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: const [
-                                      Text(
-                                        'Lluvia',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 28,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      SizedBox(height: 6),
-                                      Text(
-                                        '10.10 am',
-                                        style: TextStyle(
-                                          color: Colors.blue,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 5.0),
-                          child: Divider(
-                            color: Colors.white,
-                          ),
-                        ),
-                        ///////////////// temperatura
-                        Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Column(
-                                children: [
-                                  const SizedBox(height: 5),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: const [
-                                      Text(
-                                        '🔥 ',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 28,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      SizedBox(height: 6),
-                                      Text(
-                                        '10.10 am',
-                                        style: TextStyle(
-                                          color: Colors.blue,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                width: 45,
-                              ), // Espacio entre los dos elementos
-                              Column(
-                                children: [
-                                  const SizedBox(height: 5),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: const [
-                                      Text(
-                                        '🥶',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 28,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      SizedBox(height: 6),
-                                      Text(
-                                        '10.10 am',
-                                        style: TextStyle(
-                                          color: Colors.blue,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                );
+                  );
                 } else {
-                  return Container();
+                  return Center(
+                    child: Text(
+                      'No hay datos disponibles',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  );
                 }
               },
             ),
@@ -291,8 +332,12 @@ class Home extends StatelessWidget {
               right: 10,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacement((context),
-                      MaterialPageRoute(builder: (context) => const Welcome()));
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Welcome(),
+                    ),
+                  );
                 },
                 child: Text('📍'),
               ),
