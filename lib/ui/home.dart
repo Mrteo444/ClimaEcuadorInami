@@ -73,7 +73,7 @@ class Home extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: Text(
-                          'Provincia: ${state.weatherData["forecast_first_day.date"]}',
+                          'temeperatura maxima : ${state.weatherData["forecast_first_day"]["tmp_max"]}',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w300,
@@ -90,16 +90,6 @@ class Home extends StatelessWidget {
                           ),
                         ),
                       ),
-                      // Padding(
-                      //   padding: const EdgeInsets.only(bottom: 8.0),
-                      //   child: Text(
-                      //     'ID: ${state.weatherData["id"]}',
-                      //     style: TextStyle(
-                      //       color: Colors.white,
-                      //       fontWeight: FontWeight.w300,
-                      //     ),
-                      //   ),
-                      // ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: Text(
@@ -236,17 +226,17 @@ class Home extends StatelessWidget {
                               color: Colors.white,
                             ),
                           ),
-                          Center(
+                          const Center(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Column(
                                   children: [
-                                    const SizedBox(height: 5),
+                                    SizedBox(height: 5),
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      children: const [
+                                      children: [
                                         Text(
                                           '🔥 ',
                                           style: TextStyle(
@@ -268,16 +258,16 @@ class Home extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(
+                                SizedBox(
                                   width: 45,
                                 ),
                                 Column(
                                   children: [
-                                    const SizedBox(height: 5),
+                                    SizedBox(height: 5),
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      children: const [
+                                      children: [
                                         Text(
                                           '🥶',
                                           style: TextStyle(
