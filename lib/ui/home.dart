@@ -1,5 +1,6 @@
 import 'dart:ui';
-import 'package:ecuador_clima/bloc/weather_bloc_bloc.dart';
+
+import 'package:ecuador_clima/ui/clima.dart';
 import 'package:ecuador_clima/ui/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
