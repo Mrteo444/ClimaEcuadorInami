@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:ecuador_clima/ui/utils.dart' as utils;
+import 'package:ecuador_clima/models/utils.dart' as utils;
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -165,17 +165,14 @@ class Home extends StatelessWidget {
                                 children: [
                                   Column(
                                     children: [
-                                      Image.asset(
-                                        'assets/sleet.png',
-                                        scale: 5,
-                                      ),
+                                      
                                       const SizedBox(height: 3),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: const [
                                           Text(
-                                            'frio',
+                                            'TEM🥶MIN',
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 28,
@@ -184,7 +181,7 @@ class Home extends StatelessWidget {
                                           ),
                                           SizedBox(height: 6),
                                           Text(
-                                            '10.10 am',
+                                            '10',
                                             style: TextStyle(
                                               color: Colors.blue,
                                               fontSize: 16,
@@ -200,17 +197,14 @@ class Home extends StatelessWidget {
                                   ),
                                   Column(
                                     children: [
-                                      Image.asset(
-                                        'assets/lightrain.png',
-                                        scale: 8,
-                                      ),
+                                      
                                       const SizedBox(height: 5),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: const [
                                           Text(
-                                            'Lluvia',
+                                            'TEM🔥MAX',
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 28,
@@ -219,7 +213,7 @@ class Home extends StatelessWidget {
                                           ),
                                           SizedBox(height: 6),
                                           Text(
-                                            '10.10 am',
+                                            '25',
                                             style: TextStyle(
                                               color: Colors.blue,
                                               fontSize: 16,
@@ -251,7 +245,7 @@ class Home extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            '🔥 ',
+                                            'pasado mañana ',
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 28,
@@ -282,7 +276,7 @@ class Home extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            '🥶',
+                                            'mañana',
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 28,
