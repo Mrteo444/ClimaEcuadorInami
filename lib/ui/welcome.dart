@@ -1,3 +1,4 @@
+import 'package:ecuador_clima/main.dart';
 import 'package:ecuador_clima/models/city.dart';
 import 'package:ecuador_clima/models/constants.dart';
 import 'package:ecuador_clima/ui/home.dart';
@@ -36,16 +37,22 @@ class _WelcomeState extends State<Welcome> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 0, 0, 0), // Celeste oscuro
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: myConstants.secondaryColor,
-        title: const Text('Ciudades Disponibles'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        title: const Text('Ciudades Disponibles', style: TextStyle(color: Color.fromARGB(255, 126, 11, 11))),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.home, color: Color.fromARGB(255, 35, 72, 167)),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => MyApp()),
+              );
+            },
+          ),
+        ],
       ),
       body: ListView.builder(
         physics: const BouncingScrollPhysics(),
@@ -59,7 +66,7 @@ class _WelcomeState extends State<Welcome> {
             decoration: BoxDecoration(
               border: cities[index].isSelected == true
                   ? Border.all(color: myConstants.secondaryColor.withOpacity(.6), width: 2)
-                  : Border.all(color: Colors.white),
+                  : Border.all(color: const Color.fromARGB(255, 10, 10, 10)),
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               boxShadow: [
                 BoxShadow(
@@ -80,18 +87,18 @@ class _WelcomeState extends State<Welcome> {
                       cities[index].city,
                       style: TextStyle(
                         fontSize: 16,
-                        color: cities[index].isSelected ? myConstants.primaryColor : Colors.black54,
+                        color: cities[index].isSelected ? myConstants.primaryColor : Colors.white, // Blanco o Celeste
                       ),
                     ),
                     Text(
                       'Máx: ${cities[index].tmpMax ?? 'N/A'}°C / Mín: ${cities[index].tmpMin ?? 'N/A'}°C',
-                      style: const TextStyle(color: Colors.grey),
+                      style: const TextStyle(color: Color.fromARGB(255, 158, 158, 158)), // Gris suave
                     ),
                   ],
                 ),
                 const Spacer(),
                 IconButton(
-                  icon: const Icon(Icons.add),
+                  icon: const Icon(Icons.add, color: Colors.cyan), // Celeste para el icono
                   onPressed: () {
                     // Muestra la alerta con los datos climáticos
                     showDialog(
@@ -101,14 +108,14 @@ class _WelcomeState extends State<Welcome> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          backgroundColor: Colors.white,
+                          backgroundColor: Colors.black, // Fondo de la alerta negro
                           title: Center( // Centrar el título
                             child: Text(
                               cities[index].city,
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: myConstants.primaryColor,
+                                color: myConstants.primaryColor, // Celeste
                               ),
                             ),
                           ),
@@ -120,10 +127,11 @@ class _WelcomeState extends State<Welcome> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
+                                    color: Colors.white, // Blanco para texto principal
                                   ),
                                 ),
-                                Text('Máx: ${cities[index].tmpMax ?? 'N/A'}°C'),
-                                Text('Mín: ${cities[index].tmpMin ?? 'N/A'}°C'),
+                                Text('Máx: ${cities[index].tmpMax ?? 'N/A'}°C', style: TextStyle(color: Colors.white)),
+                                Text('Mín: ${cities[index].tmpMin ?? 'N/A'}°C', style: TextStyle(color: Colors.white)),
                                 if (cities[index].condClimMorning != null) ...[
                                   const SizedBox(height: 10),
                                   Text(
@@ -131,10 +139,11 @@ class _WelcomeState extends State<Welcome> {
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
+                                      color: Colors.white, // Blanco
                                     ),
                                   ),
-                                  Text('${cities[index].condClimMorning!.name}'),
-                                  Text('${cities[index].condClimMorning!.description}'),
+                                  Text('${cities[index].condClimMorning!.name}', style: TextStyle(color: Colors.white)),
+                                  Text('${cities[index].condClimMorning!.description}', style: TextStyle(color: Colors.white)),
                                 ],
                               ],
                             ),
@@ -147,7 +156,7 @@ class _WelcomeState extends State<Welcome> {
                               child: const Text(
                                 'Cerrar',
                                 style: TextStyle(
-                                  color: Colors.blue,
+                                  color: Colors.cyan, // Celeste
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
